@@ -1,0 +1,80 @@
+name: Release & Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run linter
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ProfileCraft Pro ${{ github.ref }}
+          body: |
+            ## 🎨 ProfileCraft Pro Release
+            
+            ### What's New
+            - 30+ Text Animations
+            - 30+ Professional Fonts
+            - 15+ Particle Effects
+            - 25+ Background Effects
+            - 35+ Pre-designed Templates
+            
+            ### Features
+            ✨ Multi-layer text support (up to 5 layers)
+            🎬 Real-time animation preview
+            📥 Export to PNG (1280×400px)
+            ⌨️ Keyboard shortcuts
+            💾 Design history with undo/redo
+            
+            ### Getting Started
+            Visit: https://codinxpro.github.io/ProfileCraft/
+            
+            No installation needed!
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./docs
+          asset_name: profilecraft-pro-${{ github.ref }}.zip
+          asset_content_type: application/zip
+
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

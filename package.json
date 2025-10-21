@@ -1,14 +1,38 @@
 {
-  "name": "newproject",
-  "private": true,
-  "version": "0.0.0",
+  "name": "@codinxpro/profilecraft",
+  "version": "1.0.0",
+  "description": "Professional GitHub Header Generator - Create stunning animated GitHub profile headers with 100+ customization options",
+  "private": false,
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CODINXPRO/ProfileCraft.git"
+  },
+  "homepage": "https://codinxpro.github.io/ProfileCraft/",
+  "bugs": {
+    "url": "https://github.com/CODINXPRO/ProfileCraft/issues"
+  },
+  "author": "CODINXPRO",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "github",
+    "header",
+    "profile",
+    "generator",
+    "animations",
+    "templates",
+    "react",
+    "typescript"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy": "npm run build && git add dist -f && git commit -m 'Deploy to GitHub Pages' && git push origin master && git rm --cached dist -r && git commit -m 'Remove dist from tracking' && git push origin master"
+    "deploy": "npm run build && git add docs -f && git commit -m 'Deploy to GitHub Pages' && git push origin master"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",
